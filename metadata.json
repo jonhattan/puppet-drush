@@ -10,11 +10,11 @@
   "dependencies": [
     {
       "name": "puppetlabs-stdlib",
-      "version_range": ">= 1.0.0"
+      "version_requirement": ">= 1.0.0"
     },
     {
       "name": "tPl0ch-composer",
-      "version_range": ">= 1.3.1"
+      "version_requirement": ">= 1.3.2"
     }
   ]
 }

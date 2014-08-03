@@ -1,11 +1,23 @@
 # == Class: drush
 #
-# Installs drush system-wide with composer.
-#
-# Additionally it prepares a drush working environment.
-#
+# Installs drush system-wide with composer and prepares a working environment.
 #
 # === Parameters
+#
+# [*versions*]
+#   Array of versions of drush to install.
+#   Valid values are '5', '6', and 'master'.
+#
+# [*default_version*]
+#   String with the drush version considered the main version.
+#
+# [*bash_integration*]
+#   Boolean indicating whether to enable drush bash facilities. It configures
+#   bash to source drush's example.bashrc for any session.
+#
+# [*bash_autocompletion*]
+#   Boolean indicating whether to enable bash autocompletion for drush commands.
+#   Doesn't take effect if bash_integration is true.
 #
 # [*extensions*]
 #   List of drush extensions to download.
@@ -13,54 +25,68 @@
 # [*aliases*]
 #   Hash of aliases to make available system wide.
 #
-# === Examples
-#
-#  class { drush:
-#    extensions => [ 'drush_extras', 'registry_rebuild' ],
-#  }
-#
-# === Authors
-#
-# Jonathan Araña Cruz <jonhattan@faita.net>
-#
-# === Copyright
-#
-# Copyright 2014 Jonathan Araña Cruz, unless otherwise noted.
-#
 class drush(
-  $extensions = [],
-  $aliases    = {}
+  $versions            = ['6', 'master'],
+  $default_version     = '6',
+  $bash_integration    = false,
+  $bash_autocompletion = true,
+  $extensions          = [],
+  $aliases             = {},
 ) {
   require ::composer
 
-  # Create our composer global directory.
-  file { '/usr/share/php/composer':
-    ensure => present,
-  }
-  # Make sure composer's global bin directory is on the system PATH.
-  file {'/etc/profile.d/composer_global_path.sh':
-    content => 'PATH=/usr/share/php/composer/vendor/bin:$PATH',
-  }
-
-  # Install drush.
-  composer::exec {'drush-install':
-    packages    => ['drush/drush:6.*'],
-    cmd         => 'require',
-    cwd         => '/tmp',
-    dev         => false,
-    global      => true,
-    working_dir => '/usr/share/php/composer',
-  }
-
-  # Create drush directories.
-  file { '/etc/drush':
-    ensure => directory,
-  }
-  file { ['/usr/share/drush', '/usr/share/drush/commands']:
+  # Parent directory of all drush installations.
+  file { '/opt/drush':
     ensure => directory,
   }
 
-  create_resources(drush::extension, $extensions)
-  create_resources(drush::alias, $aliases)
+  # Drush directories.
+  file { ['/etc/drush', '/usr/share/drush', '/usr/share/drush/commands']:
+    ensure => directory,
+  }
+
+  # Install drush versions.
+  # Could be improved with future parser's each() function.
+  if '6' in $versions {
+    drush::install { 'drush-6':
+      version => '6.*',
+    }
+  }
+  if 'master' in $versions {
+    drush::install { 'drush-master':
+      version => 'dev-master',
+    }
+  }
+
+  # Symlink for drush default version.
+  $def_v = split($default_version, '[.]')
+  file { '/usr/local/bin/drush':
+    ensure  => link,
+    target  => "/usr/local/bin/drush${def_v}",
+  }
+
+  # Clear drush cache on demand.
+  exec { 'drush cc drush':
+    path        => ['/usr/local/bin'],
+    refreshonly => true,
+    require     => File["/usr/local/bin/drush"],
+  }
+
+  # Bash integration based on the default version.
+  if $bash_integration {
+    file { '/etc/profile.d/drushrc':
+      ensure => link,
+      target => "/opt/drush/${def_v}/vendor/drush/drush/examples/example.bashrc",
+    }
+  }
+  elsif $bash_autocompletion {
+    file { '/etc/bash_completion.d/drush':
+      ensure => link,
+      target => "/opt/drush/${def_v}/vendor/drush/drush/drush.complete.sh",
+    }
+  }
+
+  #drush::extension{ $extensions: }
+  #create_resources(drush::alias, $aliases)
 }
 

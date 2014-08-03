@@ -1,6 +1,8 @@
-define drush::extension($name) {
+define drush::extension() {
   exec {"drush dl ${name}":
-    unless => "test -d /usr/share/drush/commands/${name}"
+    path   => ['/usr/local/bin'],
+    unless => "test -d /usr/share/drush/commands/${name}",
+    notify => Exec['drush cc drush'],
   }
 }
 
