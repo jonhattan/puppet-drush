@@ -14,7 +14,6 @@ define drush::install($version) {
     #cwd         => '/tmp',
     dev         => false,
     global      => false,
-    #working_dir => $install_dir,
     cwd         => $install_dir,
     notify      => Exec["${drush}-first-run"],
     require     => File[$install_dir],
