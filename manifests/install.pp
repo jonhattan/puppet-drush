@@ -28,7 +28,8 @@ define drush::install($version) {
 
   # Run drush after installation,
   # so it downloads non-composer based dependencies.
-  # Only needed for $version <= 6
+  # #TODO# Only needed for $version <= 6.
+  # Alternatively download Console_Table and we're done.
   exec { "${drush}-first-run":
     command => $drush_exec,
     refreshonly => true,
