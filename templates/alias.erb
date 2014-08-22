@@ -1,0 +1,31 @@
+$aliases['<%= @name %>'] = array(
+<% if @parent -%>
+  'parent'       => '<%= @parent %>',
+<% end -%>
+<% if @docroot -%>
+  'root'         => '<%= @docroot %>',
+<% end -%>
+<% if @uri -%>
+  'uri'          => '<%= @uri %>',
+<% end -%>
+<% if @remote_host -%>
+  'remote-host'  => '<%= @remote_host %>',
+<% end -%>
+<% if @remote_user -%>
+  'remote-user'  => '<%= @remote_user %>',
+<% end -%>
+<% if @ssh_options -%>
+  'ssh-options'  => '<%= @ssh_options %>',
+<% end -%>
+<% if @db_url -%>
+  'db-url'       => '<%= @db_url %>',
+<% end -%>
+<% if @path_aliases -%>
+  'path-aliases' => array(
+  <% @path_aliases.each do |key, value| -%>
+    <%= "'#{key}' => '#{value}'" %>,
+  <% end -%>
+  ),
+<% end -%>
+);
+

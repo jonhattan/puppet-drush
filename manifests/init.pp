@@ -94,6 +94,6 @@ class drush(
   }
 
   drush::extension{ $extensions: }
-  #create_resources(drush::alias, $aliases)
+  create_resources(drush::alias, $aliases)
 }
 
