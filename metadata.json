@@ -11,10 +11,6 @@
     {
       "name": "puppetlabs-stdlib",
       "version_requirement": ">= 1.0.0"
-    },
-    {
-      "name": "tPl0ch-composer",
-      "version_requirement": ">= 1.3.1"
     }
   ]
 }

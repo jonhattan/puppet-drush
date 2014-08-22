@@ -32,8 +32,8 @@ class drush(
   $bash_autocompletion = true,
   $extensions          = [],
   $aliases             = {},
+  $composer_path       = '/usr/local/bin/composer',
 ) {
-  require ::composer
 
   validate_array($versions)
   validate_string($default_version)

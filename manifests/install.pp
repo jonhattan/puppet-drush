@@ -8,15 +8,11 @@ define drush::install($version) {
   file { $install_dir:
     ensure => directory,
   }
-  composer::exec { "${drush}-install":
-    packages    => ["drush/drush:${v}"],
-    cmd         => 'require',
-    #cwd         => '/tmp',
-    dev         => false,
-    global      => false,
-    cwd         => $install_dir,
-    notify      => Exec["${drush}-first-run"],
-    require     => File[$install_dir],
+  $cmd = "${composer_path} require drush/drush:${v}"
+  exec { $cmd:
+    cwd     => $install_dir,
+    notify  => Exec["${drush}-first-run"],
+    require => File[$install_dir],
   }
 
   # Symlink to drush executable.
