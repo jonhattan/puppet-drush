@@ -26,7 +26,7 @@
 #   Hash of aliases to make available system wide.
 #
 class drush(
-  $versions            = ['6', 'master'],
+  $versions            = ['6',],
   $default_version     = '6',
   $bash_integration    = false,
   $bash_autocompletion = true,
@@ -34,6 +34,13 @@ class drush(
   $aliases             = {},
 ) {
   require ::composer
+
+  validate_array($versions)
+  validate_string($default_version)
+  validate_bool($bash_integration)
+  validate_bool($bash_autocompletion)
+  validate_array($extensions)
+  validate_hash($aliases)
 
   # Parent directory of all drush installations.
   file { '/opt/drush':
@@ -67,7 +74,7 @@ class drush(
 
   # Clear drush cache on demand.
   exec { 'drush cc drush':
-    path        => ['/usr/local/bin'],
+    path        => ['/bin', '/usr/bin', '/usr/local/bin'],
     refreshonly => true,
     require     => File["/usr/local/bin/drush"],
   }
