@@ -35,13 +35,6 @@ class drush(
   $composer_path       = '/usr/local/bin/composer',
 ) {
 
-  validate_array($versions)
-  validate_string($default_version)
-  validate_bool($bash_integration)
-  validate_bool($bash_autocompletion)
-  validate_array($extensions)
-  validate_hash($aliases)
-
   # Parent directory of all drush installations.
   file { '/opt/drush':
     ensure => directory,
@@ -52,8 +45,8 @@ class drush(
     ensure => directory,
   }
 
-  # Install drush versions.
-  # Could be improved with future parser's each() function.
+  # Install drush versions. It could be improved with future parser's each().
+  validate_array($versions)
   if '6' in $versions {
     drush::install { 'drush-6':
       version => '6.*',
@@ -66,6 +59,7 @@ class drush(
   }
 
   # Symlink for drush default version.
+  validate_string($default_version)
   $def_v = split($default_version, '[.]')
   file { '/usr/local/bin/drush':
     ensure  => link,
@@ -79,7 +73,10 @@ class drush(
     require     => File["/usr/local/bin/drush"],
   }
 
-  # Bash integration based on the default version.
+  # Bash integration and autocompletion based on the default version.
+  validate_bool($bash_integration,
+                $bash_autocompletion
+  )
   if $bash_integration {
     file { '/etc/profile.d/drushrc':
       ensure => link,
@@ -93,7 +90,12 @@ class drush(
     }
   }
 
+  # Install extensions.
+  validate_array($extensions)
   drush::extension{ $extensions: }
+
+  # Create aliases.
+  validate_hash($aliases)
   create_resources(drush::alias, $aliases)
 }
 
