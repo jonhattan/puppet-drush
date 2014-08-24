@@ -8,11 +8,12 @@ define drush::install($version) {
   file { $install_dir:
     ensure => directory,
   }
-  $cmd = "${composer_path} require drush/drush:${v}"
+  $cmd = "${::drush::composer_path} require drush/drush:${version}"
   exec { $cmd:
-    cwd     => $install_dir,
-    notify  => Exec["${drush}-first-run"],
-    require => File[$install_dir],
+    cwd         => $install_dir,
+    environment => 'COMPOSER_HOME="/opt/drush"',
+    notify      => Exec["${drush}-first-run"],
+    require     => File[$install_dir],
   }
 
   # Symlink to drush executable.
