@@ -1,4 +1,5 @@
 define drush::alias(
+  $ensure       = present,
   $group        = undef,
   $parent       = undef,
   $docroot      = undef,
@@ -23,7 +24,9 @@ define drush::alias(
   }
 
   if !defined(Concat[$aliasfile]) {
-    concat{ $aliasfile: }
+    concat{ $aliasfile:
+      ensure => $ensure,
+    }
     concat::fragment { "$aliasfile-header":
       target  => $aliasfile,
       content => "<?php\n#MANAGED BY PUPPET!\n\n",
