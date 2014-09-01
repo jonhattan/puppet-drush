@@ -9,7 +9,11 @@
   "issues_url": "https://github.com/jonhattan/puppet-drush/issues",
   "dependencies": [
     {
-      "name": "puppetlabs-stdlib",
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 1.0.0"
+    },
+    {
+      "name": "puppetlabs/concat",
       "version_requirement": ">= 1.0.0"
     }
   ]
