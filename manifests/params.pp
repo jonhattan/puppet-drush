@@ -3,7 +3,6 @@ class drush::params {
     'Debian': {
       $extra_packages = [
         'bzip2',
-        'git-core',
         'gzip',
         'less',
         'mysql-client',
@@ -15,7 +14,6 @@ class drush::params {
     'RedHat': {
       $extra_packages = [
         'bzip2',
-        'git',
         'gzip',
         'less',
         'mysql',
