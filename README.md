@@ -1,6 +1,6 @@
 ## Drush
 
-Installs one or more versions of [Drush](http://www.drush.org/) system-wide.
+Installs several versions of [Drush](http://www.drush.org/) system-wide.
 It is installed to `/opt/drush/DRUSH_VERSION/` and a symlink to each
 executable file is placed in `/usr/local/bin/`.
 
