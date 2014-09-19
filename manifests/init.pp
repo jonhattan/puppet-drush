@@ -26,14 +26,16 @@
 #   Hash of aliases to make available system wide.
 #
 class drush(
-  $versions            = ['6',],
-  $default_version     = '6',
-  $bash_integration    = false,
-  $bash_autocompletion = true,
-  $extensions          = [],
-  $aliases             = {},
-  $composer_path       = '/usr/local/bin/composer',
-) {
+  $versions              = ['6',],
+  $default_version       = '6',
+  $bash_integration      = false,
+  $bash_autocompletion   = true,
+  $extensions            = [],
+  $aliases               = {},
+  $composer_path         = '/usr/local/bin/composer',
+  $ensure_extra_packages = false,
+  $extra_packages        = $drush::params::extra_packages,
+) inherits drush::params {
 
   # Parent directory of all drush installations.
   file { '/opt/drush':
@@ -97,5 +99,14 @@ class drush(
   # Create aliases.
   validate_hash($aliases)
   create_resources(drush::alias, $aliases)
+
+  # Install extra packages.
+  validate_bool($ensure_extra_packages)
+  if $ensure_extra_packages {
+    validate_array($extra_packages)
+    package { $extra_packages:
+      ensure => installed,
+    }
+  }
 }
 
