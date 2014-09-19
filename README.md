@@ -1,41 +1,63 @@
-# Drush
+## Drush
 
-Installs [Drush](http://www.drush.org/) and allows to define global
-configuration, aliases and extensions.
+Installs one or more versions of [Drush](http://www.drush.org/) system-wide.
 
-Installation is performed with [Composer](https://getcomposer.org/). It is done
-system-wide in `/opt/drush/DRUSH_VERSION/` and a symlink to Drush executable is
-placed in `/usr/local/bin`.
+Drush is installed to `/opt/drush/DRUSH_VERSION/` and a symlink to each
+executable file is placed in `/usr/local/bin/`.
 
-It doesn't goes crazy to provide a freaking drush commands interface.
+Installation is done via [Composer](https://getcomposer.org/).
+
+Other features:
+
+  * Configures bash integration
+  * Download of Drush extensions
+  * Definition of Drush aliases
+
+It doesn't goes crazy to provide a freaking Drush commands interface
+to run with Puppet.
+
+#### &rarr; Quick install instructions in the [Puppetry for Drupaleros](https://github.com/jonhattan/puppet-drush/wiki/Puppetry-for-Drupaleros) wiki page.
 
 
-# Example usage
+## Example usage
 
-* Hieradata:
+### Hieradata
 
 ```yaml
 classes :
   - drush
 
+drush::versions   :
+  - 6
+  - master
+
 drush::extensions :
   - drush_extras
   - registry_rebuild
+
+drush::aliases    :
+  foo:
+    root : /var/www/foo/htdocs
+    uri  : foo.local
+
+  bar:
+    root : /var/www/bar/htdocs
+    uri  : bar.local
 ```
 
-* Manifest:
+### Manifest:
 
-```
+```ruby
 hiera_include('classes')
 
-drush::extension{ 'drush_deploy': }
+drush::extension { 'drush_deploy': }
 ```
 
-# License
+## License
 
 MIT
 
-# Author Information
+## Author Information
 
 Jonathan Araña Cruz - SB IT Media, S.L.
 
