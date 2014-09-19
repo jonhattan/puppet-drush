@@ -2,7 +2,7 @@ define drush::alias(
   $ensure       = present,
   $group        = undef,
   $parent       = undef,
-  $docroot      = undef,
+  $root         = undef,
   $uri          = undef,
   $db_url       = undef,
   $path_aliases = undef,
@@ -11,8 +11,8 @@ define drush::alias(
   $remote_user  = undef,
 ) {
 
-  if $docroot {
-    validate_absolute_path($docroot)
+  if $root {
+    validate_absolute_path($root)
   }
   if $parent {
     validate_re($parent, '^@', "Invalid parent alias '${parent}'. Parent aliases must start with @.")
