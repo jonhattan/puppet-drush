@@ -1,17 +1,17 @@
 ## Drush
 
 Installs one or more versions of [Drush](http://www.drush.org/) system-wide.
-
 Drush is installed to `/opt/drush/DRUSH_VERSION/` and a symlink to each
 executable file is placed in `/usr/local/bin/`.
 
 Installation is done via [Composer](https://getcomposer.org/).
 
-Other features:
+Features:
 
   * Configures bash integration
   * Download of Drush extensions
   * Definition of Drush aliases
+  * Optionally install command dependencies (wget, git, gzip, rsync, ...)
 
 It doesn't goes crazy to provide a freaking Drush commands interface
 to run with Puppet.
@@ -45,7 +45,7 @@ drush::aliases    :
     uri  : bar.local
 ```
 
-### Manifest:
+### Manifest
 
 ```ruby
 hiera_include('classes')
