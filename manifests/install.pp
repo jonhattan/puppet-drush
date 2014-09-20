@@ -9,15 +9,16 @@ define drush::install($version) {
     ensure => directory,
   }
   $cmd = "${::drush::composer_path} require drush/drush:${version}"
+  $drush_exec = "/usr/local/bin/${drush}"
   exec { $cmd:
     cwd         => $install_dir,
     environment => 'COMPOSER_HOME="/opt/drush"',
     notify      => Exec["${drush}-first-run"],
     require     => File[$install_dir],
+    creates     => $drush_exec,
   }
 
   # Symlink to drush executable.
-  $drush_exec = "/usr/local/bin/${drush}"
   file { $drush_exec:
     ensure => link,
     target => "${install_dir}/vendor/bin/drush",
