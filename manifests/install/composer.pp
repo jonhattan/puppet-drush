@@ -1,16 +1,3 @@
-# == Defined type: drush::install::composer
-#
-# Installs a Drush version with Composer.
-#
-# === Parameters
-#
-# [*version*]
-#   Drush version to install.
-#
-# [*version_string*]
-#   A valid Composer version as '6', '6.4', '6.*', '6.*@dev' or 'dev-master'.
-#   If undef, it will guess it from $version
-#
 define drush::install::composer(
   $autoupdate,
   $version,
