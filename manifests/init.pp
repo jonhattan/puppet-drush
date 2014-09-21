@@ -11,6 +11,16 @@
 # [*default_version*]
 #   String with the drush version considered the main version.
 #
+# [*autoupdate*]
+#   Try and install new versions automatically. Defaults to false.
+#
+# [*ensure_extra_packages*]
+#  Boolean indicating wether extra system packages must be installed.
+#  It defaults to false to not interfere with other modules.
+#
+# [*extra_packages*]
+#  Array of extra packages to install if ensure_extra_packages is true.
+#
 # [*bash_integration*]
 #   Boolean indicating whether to enable drush bash facilities. It configures
 #   bash to source drush's example.bashrc for any session.
@@ -28,23 +38,17 @@
 # [*composer_path*]
 #   Absolute path to composer executable.
 #
-# [*ensure_extra_packages*]
-#  Boolean indicating wether extra system packages must be installed.
-#  It defaults to false to not interfere with other modules.
-#
-# [*extra_packages*]
-#  Array of extra packages to install if ensure_extra_packages is true.
-#
 class drush(
   $versions              = ['6',],
   $default_version       = '6',
+  $autoupdate            = false,
+  $ensure_extra_packages = false,
+  $extra_packages        = $drush::params::extra_packages,
   $bash_integration      = false,
   $bash_autocompletion   = true,
   $extensions            = [],
   $aliases               = {},
   $composer_path         = '/usr/local/bin/composer',
-  $ensure_extra_packages = false,
-  $extra_packages        = $drush::params::extra_packages,
 ) inherits drush::params {
 
   # Pick default major version.

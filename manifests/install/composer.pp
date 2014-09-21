@@ -12,6 +12,7 @@
 #   If undef, it will guess it from $version
 #
 define drush::install::composer(
+  $autoupdate,
   $version,
   $install_path,
 ) {
@@ -35,10 +36,14 @@ define drush::install::composer(
 
   $base_path = dirname($install_path)
   $composer_home = "${base_path}/.composer"
-  exec { "${drush::composer_path} require drush/drush:${real_version}":
+  $cmd = "${drush::composer_path} require drush/drush:${real_version}"
+  exec { $cmd:
     cwd         => $install_path,
     environment => ["COMPOSER_HOME=${composer_home}"],
     require     => File[$install_path],
+  }
+  if ! $autoupdate {
+    Exec[$cmd] { creates => "${install_path}/composer.json"}
   }
 
 }

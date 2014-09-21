@@ -4,6 +4,9 @@
 #
 # === Parameters
 #
+# [*autoupdate*]
+#   Try and install new versions automatically. Defaults to false.
+#
 # [*method*]
 #   Installation method. It only accepts composer at present.
 #
@@ -11,7 +14,8 @@
 #   Drush release to install. Example: 6, 6.4, master.
 #
 define drush::install(
-  $method  = 'composer',
+  $autoupdate = false,
+  $method     = 'composer',
   $version,
 ) {
 
@@ -26,6 +30,7 @@ define drush::install(
   case $method {
     'composer': {
       drush::install::composer { $drush:
+        autoupdate     => $autoupdate,
         version        => $version,
         install_path   => $install_path,
         notify         => Exec["${drush}-first-run"],

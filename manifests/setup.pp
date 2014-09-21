@@ -34,7 +34,11 @@ class drush::setup {
   # or building a hash like {'6' => {'version' => '6'}, 'master' => {'version' => 'master'}}
   validate_array($drush::versions)
   $versions = parseyaml(template('drush/install-versions-hash.erb'))
-  create_resources('drush::install', $versions, {'method' => 'composer'})
+  $defaults = {
+    autoupdate => $drush::autoupdate,
+    method     => 'composer'
+  }
+  create_resources('drush::install', $versions, $defaults)
 
 }
 
