@@ -11,6 +11,8 @@ define drush::alias(
   $remote_user  = undef,
 ) {
 
+  require drush
+
   if $root {
     validate_absolute_path($root)
   }
@@ -39,5 +41,6 @@ define drush::alias(
     content => template('drush/alias.erb'),
     order   => 1,
   }
+
 }
 

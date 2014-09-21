@@ -1,36 +1,51 @@
-define drush::install($version) {
+# == Defined type: drush::install
+#
+# Installs a Drush version with the given method.
+#
+# === Parameters
+#
+# [*method*]
+#   Installation method. It only accepts composer at present.
+#
+# [*version*]
+#   Drush release to install. Example: 6, 6.4, master.
+#
+define drush::install(
+  $method  = 'composer',
+  $version,
+) {
+
+  # Pick major version.
   $parts = split($version, '[.]')
-  $v = $parts[0]
+  $version_major = $parts[0]
 
-  $drush = "drush${v}"
-  $install_dir = "/opt/drush/${v}"
+  $drush        = "drush${version_major}"
+  $drush_exe    = "/usr/local/bin/${drush}"
+  $install_path = "/opt/drush/${version_major}"
 
-  file { $install_dir:
-    ensure => directory,
+  case $method {
+    'composer': {
+      drush::install::composer { $drush:
+        version        => $version,
+        install_path   => $install_path,
+        notify         => Exec["${drush}-first-run"],
+      }
+      file { $drush_exe:
+        ensure  => link,
+        target  => "${install_path}/vendor/bin/drush",
+        require => Drush::Install::Composer[$drush],
+      }
+    }
+    default: {
+      fail("Unknown install method: '${method}'.")
+    }
   }
-  $cmd = "${::drush::composer_path} require drush/drush:${version}"
-  exec { $cmd:
-    cwd         => $install_dir,
-    environment => 'COMPOSER_HOME="/opt/drush"',
-    notify      => Exec["${drush}-first-run"],
-    require     => File[$install_dir],
-  }
 
-  # Symlink to drush executable.
-  $drush_exec = "/usr/local/bin/${drush}"
-  file { $drush_exec:
-    ensure => link,
-    target => "${install_dir}/vendor/bin/drush",
-  }
-
-  # Run drush after installation,
-  # so it downloads non-composer based dependencies.
-  # #TODO# Only needed for $version <= 6.
-  # Alternatively download Console_Table and we're done.
   exec { "${drush}-first-run":
-    command => $drush_exec,
+    command     => "${drush_exe} status",
+    require     => File[$drush_exe],
     refreshonly => true,
-    require     => File[$drush_exec],
   }
+
 }
 

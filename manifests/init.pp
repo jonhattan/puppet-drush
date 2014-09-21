@@ -1,6 +1,6 @@
 # == Class: drush
 #
-# Installs drush system-wide with composer and prepares a working environment.
+# Installs Drush system-wide with Composer and prepares a working environment.
 #
 # === Parameters
 #
@@ -25,6 +25,16 @@
 # [*aliases*]
 #   Hash of aliases to make available system wide.
 #
+# [*composer_path*]
+#   Absolute path to composer executable.
+#
+# [*ensure_extra_packages*]
+#  Boolean indicating wether extra system packages must be installed.
+#  It defaults to false to not interfere with other modules.
+#
+# [*extra_packages*]
+#  Array of extra packages to install if ensure_extra_packages is true.
+#
 class drush(
   $versions              = ['6',],
   $default_version       = '6',
@@ -37,76 +47,19 @@ class drush(
   $extra_packages        = $drush::params::extra_packages,
 ) inherits drush::params {
 
-  # Parent directory of all drush installations.
-  file { '/opt/drush':
-    ensure => directory,
-  }
-
-  # Drush directories.
-  file { ['/etc/drush', '/usr/share/drush', '/usr/share/drush/commands']:
-    ensure => directory,
-  }
-
-  # Install drush versions. It could be improved with future parser's each().
-  validate_array($versions)
-  if '6' in $versions {
-    drush::install { 'drush-6':
-      version => '6.*',
-    }
-  }
-  if 'master' in $versions {
-    drush::install { 'drush-master':
-      version => 'dev-master',
-    }
-  }
-
-  # Symlink for drush default version.
+  # Pick default major version.
   validate_string($default_version)
-  $def_v = split($default_version, '[.]')
-  file { '/usr/local/bin/drush':
-    ensure  => link,
-    target  => "/usr/local/bin/drush${def_v}",
-  }
+  $parts = split($default_version, '[.]')
+  $default_version_major = $parts[0]
 
-  # Clear drush cache on demand.
-  exec { 'drush cc drush':
-    path        => ['/bin', '/usr/bin', '/usr/local/bin'],
-    refreshonly => true,
-    require     => File["/usr/local/bin/drush"],
-  }
+  validate_absolute_path($composer_path)
 
-  # Bash integration and autocompletion based on the default version.
-  validate_bool($bash_integration,
-                $bash_autocompletion
-  )
-  if $bash_integration {
-    file { '/etc/profile.d/drushrc':
-      ensure => link,
-      target => "/opt/drush/${def_v}/vendor/drush/drush/examples/example.bashrc",
-    }
-  }
-  elsif $bash_autocompletion {
-    file { '/etc/bash_completion.d/drush':
-      ensure => link,
-      target => "/opt/drush/${def_v}/vendor/drush/drush/drush.complete.sh",
-    }
-  }
+  $drush_exe_default = '/usr/local/bin/drush'
 
-  # Install extensions.
-  validate_array($extensions)
-  drush::extension{ $extensions: }
+  class{'drush::setup': } ->
+  class{'drush::config': } ~>
+  class{'drush::cacheclear': } ->
+  Class["drush"]
 
-  # Create aliases.
-  validate_hash($aliases)
-  create_resources(drush::alias, $aliases)
-
-  # Install extra packages.
-  validate_bool($ensure_extra_packages)
-  if $ensure_extra_packages {
-    validate_array($extra_packages)
-    package { $extra_packages:
-      ensure => installed,
-    }
-  }
 }
 
