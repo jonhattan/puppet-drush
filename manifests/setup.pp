@@ -14,6 +14,14 @@ class drush::setup {
     }
   }
 
+  if $drush::php_path {
+    validate_absolute_path($drush::php_path)
+    file { '/etc/profile.d/drush_php.sh':
+      ensure  => present,
+      content => "export DRUSH_PHP=${drush::php_path}",
+    }
+  }
+
   # Parent directory of any drush installations.
   file { '/opt/drush':
     ensure => directory,

@@ -38,6 +38,10 @@
 # [*composer_path*]
 #   Absolute path to composer executable.
 #
+# [*path_path*]
+#   Path to an alternative php executable to run drush with.
+#   If provided, it will set DRUSH_PHP environment variable system-wide.
+#
 class drush(
   $versions              = ['6',],
   $default_version       = '6',
@@ -49,6 +53,7 @@ class drush(
   $extensions            = [],
   $aliases               = {},
   $composer_path         = '/usr/local/bin/composer',
+  $php_path              = undef,
 ) inherits drush::params {
 
   # Pick default major version.
