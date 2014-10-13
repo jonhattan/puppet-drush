@@ -42,6 +42,14 @@
 #   Path to an alternative php executable to run drush with.
 #   If provided, it will set DRUSH_PHP environment variable system-wide.
 #
+# [*php_ini_path*]
+#   Path to an alternative php ini file. If provided, it will set PHP_INI
+#   environment variable system-wide. See `docs-ini-files` for details.
+#
+# [*drush_ini_path*]
+#   Path to a ini file with php overrides. If provided, it will set DRUSH_INI
+#   environment variable system-wide. See `docs-ini-files` for details.
+#
 class drush(
   $versions              = ['6',],
   $default_version       = '6',
@@ -54,6 +62,8 @@ class drush(
   $aliases               = {},
   $composer_path         = '/usr/local/bin/composer',
   $php_path              = undef,
+  $php_ini_path          = undef,
+  $drush_ini_path        = undef,
 ) inherits drush::params {
 
   # Pick default major version.

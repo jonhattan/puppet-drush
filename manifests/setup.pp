@@ -14,11 +14,41 @@ class drush::setup {
     }
   }
 
+  concat{ 'drush-sh-profile':
+    path   => '/etc/profile.d/drush',
+    ensure => present,
+  }
+  concat::fragment { 'drush-sh-profile-header':
+    target  => 'drush-sh-profile',
+    ensure  => present,
+    content => "# MANAGED BY PUPPET\n\n",
+    order   => 0,
+  }
   if $drush::php_path {
     validate_absolute_path($drush::php_path)
-    file { '/etc/profile.d/drush_php.sh':
+    concat::fragment { 'drush-sh-profile-php-path':
+      target  => 'drush-sh-profile',
       ensure  => present,
-      content => "export DRUSH_PHP=${drush::php_path}",
+      content => "export DRUSH_PHP=${drush::php_path}\n",
+      order   => 1,
+    }
+  }
+  if $drush::php_ini_path {
+    validate_absolute_path($drush::php_ini_path)
+    concat::fragment { 'drush-sh-profile-php-ini-path':
+      target  => 'drush-sh-profile',
+      ensure  => present,
+      content => "export PHP_INI=${drush::php_ini_path}\n",
+      order   => 1,
+    }
+  }
+  if $drush::drush_ini_path {
+    validate_absolute_path($drush::drush_ini_path)
+    concat::fragment { 'drush-sh-profile-drush-ini-path':
+      target  => 'drush-sh-profile',
+      ensure  => present,
+      content => "export DRUSH_INI=${drush::drush_ini_path}\n",
+      order   => 1,
     }
   }
 
