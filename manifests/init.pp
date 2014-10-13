@@ -38,7 +38,7 @@
 # [*composer_path*]
 #   Absolute path to composer executable.
 #
-# [*path_path*]
+# [*php_path*]
 #   Path to an alternative php executable to run drush with.
 #   If provided, it will set DRUSH_PHP environment variable system-wide.
 #
