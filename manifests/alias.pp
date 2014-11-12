@@ -11,7 +11,9 @@ define drush::alias(
   $remote_user  = undef,
 ) {
 
-  require drush
+  if (!defined(Class['drush'])) {
+    fail("You must include class drush before declaring aliases")
+  }
 
   if $root {
     validate_absolute_path($root)
