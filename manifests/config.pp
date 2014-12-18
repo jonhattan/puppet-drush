@@ -2,7 +2,8 @@ class drush::config {
 
   #private()
   if $caller_module_name != $module_name {
-    warning("${name} is not part of the public API of the ${module_name} module and should not be directly included in the manifest.")
+    warning("${name} is not part of the public API of the ${module_name} \
+module and should not be directly included in the manifest.")
   }
 
   # Bash integration and autocompletion based on the default version.

@@ -78,7 +78,7 @@ class drush(
   class{'drush::setup': } ->
   class{'drush::config': } ~>
   class{'drush::cacheclear': } ->
-  Class["drush"]
+  Class['drush']
 
 }
 

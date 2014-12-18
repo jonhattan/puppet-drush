@@ -6,7 +6,8 @@ define drush::install::composer(
 
   #private()
   if $caller_module_name != $module_name {
-    warning("${name} is not part of the public API of the ${module_name} module and should not be directly included in the manifest.")
+    warning("${name} is not part of the public API of the ${module_name} \
+module and should not be directly included in the manifest.")
   }
 
   # If version is 'master' or a single major release number,
