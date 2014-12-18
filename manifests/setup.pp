@@ -53,8 +53,8 @@ module and should not be directly included in the manifest.")
     }
   }
 
-  # Parent directory of any drush installations.
-  file { '/opt/drush':
+  # Base install path of any drush installations.
+  file { $drush::install_base_path:
     ensure => directory,
   }
 
@@ -63,7 +63,7 @@ module and should not be directly included in the manifest.")
     ensure => directory,
   }
 
-  # Symlink to drush default version.
+  # Symlink to drush default version executable.
   file { $drush::drush_exe_default:
     ensure => link,
     target => "/usr/local/bin/drush${drush::default_version_major}",
@@ -79,6 +79,15 @@ module and should not be directly included in the manifest.")
     method     => 'composer'
   }
   create_resources('drush::install', $versions, $defaults)
+
+  # Make /opt/drush/default a symlink to the codebase
+  # of the default drush installation.
+  # TODO: this is coupled to composer install method.
+  $default_path = "${drush::install_base_path}/${drush::default_version_major}"
+  file { "${drush::install_base_path}/default":
+    ensure => link,
+    target => "${default_path}/vendor/drush/drush",
+  }
 
 }
 

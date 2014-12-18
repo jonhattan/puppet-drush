@@ -73,6 +73,7 @@ class drush(
 
   validate_absolute_path($composer_path)
 
+  $install_base_path = '/opt/drush'
   $drush_exe_default = '/usr/local/bin/drush'
 
   class{'drush::setup': } ->

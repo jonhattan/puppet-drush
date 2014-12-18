@@ -25,7 +25,7 @@ define drush::install(
 
   $drush        = "drush${version_major}"
   $drush_exe    = "/usr/local/bin/${drush}"
-  $install_path = "/opt/drush/${version_major}"
+  $install_path = "${drush::install_base_path}/${version_major}"
 
   case $method {
     'composer': {

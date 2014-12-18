@@ -13,13 +13,13 @@ module and should not be directly included in the manifest.")
   if $drush::bash_integration {
     file { '/etc/profile.d/drushrc':
       ensure => link,
-      target => "/opt/drush/${drush::default_version_major}/vendor/drush/drush/examples/example.bashrc",
+      target => "${drush::install_base_path}/default/examples/example.bashrc",
     }
   }
   elsif $drush::bash_autocompletion {
     file { '/etc/bash_completion.d/drush':
       ensure => link,
-      target => "/opt/drush/${drush::default_version_major}/vendor/drush/drush/drush.complete.sh",
+      target => "${drush::install_base_path}/default/drush.complete.sh",
     }
   }
 
