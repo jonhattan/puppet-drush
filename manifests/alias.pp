@@ -1,14 +1,15 @@
 define drush::alias(
-  $ensure       = present,
-  $group        = undef,
-  $parent       = undef,
-  $root         = undef,
-  $uri          = undef,
-  $db_url       = undef,
-  $path_aliases = undef,
-  $ssh_options  = undef,
-  $remote_host  = undef,
-  $remote_user  = undef,
+  $ensure           = present,
+  $group            = undef,
+  $parent           = undef,
+  $root             = undef,
+  $uri              = undef,
+  $db_url           = undef,
+  $path_aliases     = undef,
+  $ssh_options      = undef,
+  $remote_host      = undef,
+  $remote_user      = undef,
+  $command_specific = undef,
 ) {
 
   if (!defined(Class['drush'])) {
@@ -21,6 +22,9 @@ define drush::alias(
   if $parent {
     validate_re($parent, '^@',
     "Invalid parent alias '${parent}'. Parent aliases must start with @.")
+  }
+  if $command_specific {
+    validate_hash($command_specific)
   }
 
   $aliasfile = $group ? {

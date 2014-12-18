@@ -22,9 +22,21 @@ $aliases['<%= @name %>'] = array(
 <% end -%>
 <% if @path_aliases -%>
   'path-aliases' => array(
-  <% @path_aliases.each do |key, value| -%>
+  <%- @path_aliases.each do |key, value| -%>
     <%= "'#{key}' => '#{value}'" %>,
-  <% end -%>
+  <%- end -%>
+  ),
+<% end -%>
+<% if @command_specific -%>
+  'command-specific' => array(
+  <%- @command_specific.each do |command, options| -%>
+    <%= "'#{command}'" %> => array(
+    <%- options.each do |key, value| -%>
+      <%- value = "'#{value}'" unless [true, false].include? value -%>
+      <%= "'#{key}' => #{value}" -%>,
+    <%- end -%>
+    ),
+  <%- end -%>
   ),
 <% end -%>
 );
