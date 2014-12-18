@@ -34,35 +34,50 @@ Find the instructions in the [Puppetry for Drupaleros](https://github.com/jonhat
 
 ```yaml
 classes :
-  - drush
+  - 'drush'
 
-drush::versions   :
-  - 6
-  - master
+drush::versions :
+  - '6'
+  - 'master'
 
 drush::extensions :
-  - drush_extras
-  - registry_rebuild
+  - 'drush_extras'
+  - 'registry_rebuild'
 
-drush::aliases    :
-  foo:
-    root : /var/www/foo/htdocs
-    uri  : foo.local
+drush::aliases :
+  base:
+    group : 'example'
+    path_aliases     :
+      '%dump-dir'    : '/opt/dumps'
+    command_specific :
+      sql-sync       :
+        cache: false
 
-  bar:
-    root : /var/www/bar/htdocs
-    uri  : bar.local
+  dev :
+    group  : 'example'
+    parent : '@base'
+    root   : '/var/www/dev.example.com/htdocs'
+    uri    : 'dev.example.com'
+
+  staging :
+    group       : 'example'
+    parent      : '@base'
+    root        : '/var/www/staging.example.com/htdocs'
+    uri         : 'staging.example.com'
+    remote_host : 'staging.example.com'
+    remote_user : 'deploy'
+    ssh_options : '-p 2203'
+
 ```
 
 
 ### Manifest
 
 ```ruby
+
+# Include the declared Hiera classes and let Puppet do the magic.
 hiera_include('classes')
-
-drush::extension { 'drush_deploy': }
 ```
-
 
 ## License
 
