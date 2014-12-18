@@ -17,7 +17,7 @@ module and should not be directly included in the manifest.")
 
   concat{ 'drush-sh-profile':
     ensure => present,
-    path   => '/etc/profile.d/drush',
+    path   => '/etc/profile.d/drush.sh',
   }
   concat::fragment { 'drush-sh-profile-header':
     ensure  => present,
