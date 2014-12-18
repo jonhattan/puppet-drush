@@ -1,5 +1,5 @@
 ---
-<% @versions.each do |version| %>
+<% scope.lookupvar('drush::versions').each do |version| %>
   <%= version %> :
     version : '<%= version %>'
 <% end %>
