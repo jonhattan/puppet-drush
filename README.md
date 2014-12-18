@@ -1,4 +1,6 @@
-## Drush
+## Drush puppet module
+
+[![puppet forge version](https://img.shields.io/puppetforge/v/jonhattan/drush.svg)](http://forge.puppetlabs.com/jonhattan/drush) [![last tag](https://img.shields.io/github/tag/jonhattan/puppet-drush.svg)](https://github.com/jonhattan/puppet-drush/tags)
 
 Installs several versions of [Drush](http://www.drush.org/) system-wide.
 It is installed to `/opt/drush/DRUSH_VERSION/` and a symlink to each
