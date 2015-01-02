@@ -1,15 +1,17 @@
 define drush::alias(
-  $ensure           = present,
-  $group            = undef,
-  $parent           = undef,
-  $root             = undef,
-  $uri              = undef,
-  $db_url           = undef,
-  $path_aliases     = undef,
-  $ssh_options      = undef,
-  $remote_host      = undef,
-  $remote_user      = undef,
-  $command_specific = undef,
+  $ensure                  = present,
+  $group                   = undef,
+  $parent                  = undef,
+  $root                    = undef,
+  $uri                     = undef,
+  $db_url                  = undef,
+  $path_aliases            = undef,
+  $ssh_options             = undef,
+  $remote_host             = undef,
+  $remote_user             = undef,
+  $command_specific        = undef,
+  $source_command_specific = undef,
+  $target_command_specific = undef,
 ) {
 
   if (!defined(Class['drush'])) {

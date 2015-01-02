@@ -39,5 +39,29 @@ $aliases['<%= @name %>'] = array(
   <%- end -%>
   ),
 <% end -%>
+<% if @source_command_specific -%>
+  'source-command-specific' => array(
+  <%- @source_command_specific.each do |command, options| -%>
+    <%= "'#{command}'" %> => array(
+    <%- options.each do |key, value| -%>
+      <%- value = "'#{value}'" unless [true, false].include? value -%>
+      <%= "'#{key}' => #{value}" -%>,
+    <%- end -%>
+    ),
+  <%- end -%>
+  ),
+<% end -%>
+<% if @target_command_specific -%>
+  'target-command-specific' => array(
+  <%- @target_command_specific.each do |command, options| -%>
+    <%= "'#{command}'" %> => array(
+    <%- options.each do |key, value| -%>
+      <%- value = "'#{value}'" unless [true, false].include? value -%>
+      <%= "'#{key}' => #{value}" -%>,
+    <%- end -%>
+    ),
+  <%- end -%>
+  ),
+<% end -%>
 );
 
