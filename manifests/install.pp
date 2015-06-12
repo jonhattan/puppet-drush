@@ -5,7 +5,7 @@
 # === Parameters
 #
 # [*version*]
-#   Drush release to install. Example: 6, 6.4, master.
+#   Drush release to install. Example: 7, 6.6, master.
 #
 # [*autoupdate*]
 #   Try and install new versions automatically. Defaults to false.

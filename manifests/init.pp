@@ -6,7 +6,7 @@
 #
 # [*versions*]
 #   Array of versions of drush to install.
-#   Valid values are '5', '6', and 'master'.
+#   Valid values are '6', '7', '8', and 'master'.
 #
 # [*default_version*]
 #   String with the drush version considered the main version.
@@ -51,8 +51,8 @@
 #   environment variable system-wide. See `docs-ini-files` for details.
 #
 class drush(
-  $versions              = ['6',],
-  $default_version       = '6',
+  $versions              = ['7',],
+  $default_version       = '7',
   $autoupdate            = false,
   $ensure_extra_packages = false,
   $extra_packages        = $drush::params::extra_packages,
