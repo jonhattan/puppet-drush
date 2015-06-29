@@ -20,6 +20,7 @@ system-wide.
 
 ## Features
 
+  * Installs dist (tarball) or source code (git clone) of Drush
   * Definition of Drush aliases
   * Download Drush extensions
   * Optionally install command dependencies (wget, git, gzip, rsync, ...)

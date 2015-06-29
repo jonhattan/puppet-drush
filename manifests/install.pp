@@ -7,6 +7,10 @@
 # [*version*]
 #   Drush release to install. Example: 7, 6.6, master.
 #
+# [*install_type*]
+#   Install distribution package or source code.
+#   Valid values: 'dist', 'source'. Defaults to 'dist'.
+#
 # [*autoupdate*]
 #   Try and install new versions automatically. Defaults to false.
 #
@@ -15,9 +19,16 @@
 #
 define drush::install(
   $version,
-  $autoupdate = false,
-  $method     = 'composer',
+  $install_type = 'dist',
+  $autoupdate   = false,
+  $method       = 'composer',
 ) {
+
+  $install_types = [ 'dist', 'source' ]
+  if ! ($install_type in $install_types) {
+    fail("'${install_type}' is not a valid value for creation_mode. Valid values: ${install_types}.")
+  }
+
 
   # Pick major version.
   $parts = split($version, '[.]')
@@ -33,6 +44,7 @@ define drush::install(
         autoupdate   => $autoupdate,
         version      => $version,
         install_path => $install_path,
+        install_type => $install_type,
         notify       => Exec["${drush}-first-run"],
       }
       file { $drush_exe:

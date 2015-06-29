@@ -11,6 +11,10 @@
 # [*default_version*]
 #   String with the drush version considered the main version.
 #
+# [*install_type*]
+#   Install distribution package or source code.
+#   Valid values: 'dist', 'source'. Defaults to 'dist'.
+#
 # [*autoupdate*]
 #   Try and install new versions automatically. Defaults to false.
 #
@@ -53,6 +57,7 @@
 class drush(
   $versions              = ['7',],
   $default_version       = '7',
+  $install_type          = 'dist',
   $autoupdate            = false,
   $ensure_extra_packages = false,
   $extra_packages        = $drush::params::extra_packages,

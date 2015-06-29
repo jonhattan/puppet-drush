@@ -2,6 +2,7 @@ define drush::install::composer(
   $autoupdate,
   $version,
   $install_path,
+  $install_type,
 ) {
 
   #private()
@@ -24,7 +25,8 @@ module and should not be directly included in the manifest.")
 
   $base_path = dirname($install_path)
   $composer_home = "${base_path}/.composer"
-  $cmd = "${drush::composer_path} require drush/drush:${real_version}"
+  $prefer = "--prefer-${install_type}"
+  $cmd = "${drush::composer_path} require drush/drush:${real_version} $prefer"
   exec { $cmd:
     cwd         => $install_path,
     environment => ["COMPOSER_HOME=${composer_home}"],
