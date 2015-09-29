@@ -20,6 +20,11 @@ $aliases['<%= @name %>'] = array(
 <% if @db_url -%>
   'db-url'       => '<%= @db_url %>',
 <% end -%>
+<% if @custom_options -%>
+  <%- @custom_options.each do |key, value| -%>
+  <%= "'#{key}' => '#{value}'" %>,
+  <%- end -%>
+<% end -%>
 <% if @path_aliases -%>
   'path-aliases' => array(
   <%- @path_aliases.each do |key, value| -%>

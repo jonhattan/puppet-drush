@@ -9,6 +9,7 @@ define drush::alias(
   $ssh_options             = undef,
   $remote_host             = undef,
   $remote_user             = undef,
+  $custom_options          = undef,
   $command_specific        = undef,
   $source_command_specific = undef,
   $target_command_specific = undef,
@@ -24,6 +25,9 @@ define drush::alias(
   if $parent {
     validate_re($parent, '^@',
     "Invalid parent alias '${parent}'. Parent aliases must start with @.")
+  }
+  if $custom_options {
+    validate_hash($custom_options)
   }
   if $command_specific {
     validate_hash($command_specific)
