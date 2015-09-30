@@ -1,5 +1,6 @@
 define drush::alias(
   $ensure                  = present,
+  $alias_name              = $name,
   $group                   = undef,
   $parent                  = undef,
   $root                    = undef,
