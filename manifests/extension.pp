@@ -10,7 +10,7 @@ define drush::extension() {
 
   exec {"${drush::drush_exe_default} dl ${name}":
     creates => "/usr/share/drush/commands/${extension_name}",
-    notify  => Class['cacheclear'],
+    notify  => Class['drush::cacheclear'],
   }
 
 }
