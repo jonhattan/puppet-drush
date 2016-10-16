@@ -59,7 +59,7 @@ define drush::install(
   }
 
   exec { "${drush}-first-run":
-    command     => "${drush_exe} status",
+    command     => "su - -c '${drush_exe} status'",
     require     => File[$drush_exe],
     refreshonly => true,
   }
