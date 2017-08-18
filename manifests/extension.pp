@@ -1,3 +1,5 @@
+# == Define Resource Type: drush::extension
+#
 define drush::extension() {
 
   if (!defined(Class['drush'])) {

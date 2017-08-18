@@ -1,3 +1,7 @@
+# == Class: drush::clearcache
+#
+# Private class.
+#
 class drush::cacheclear {
 
   #private()

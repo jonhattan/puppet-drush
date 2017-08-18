@@ -1,3 +1,7 @@
+# == Class: drush::params
+#
+# This class manages drush parameters.
+#
 class drush::params {
   case $::osfamily {
     'Debian': {
