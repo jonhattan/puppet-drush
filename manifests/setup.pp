@@ -24,7 +24,6 @@ module and should not be directly included in the manifest.")
     path   => '/etc/profile.d/drush.sh',
   }
   concat::fragment { 'drush-sh-profile-header':
-    ensure  => present,
     target  => 'drush-sh-profile',
     content => "# MANAGED BY PUPPET\n\n",
     order   => 0,
@@ -32,7 +31,6 @@ module and should not be directly included in the manifest.")
   if $drush::php_path {
     validate_absolute_path($drush::php_path)
     concat::fragment { 'drush-sh-profile-php-path':
-      ensure  => present,
       target  => 'drush-sh-profile',
       content => "export DRUSH_PHP=${drush::php_path}\n",
       order   => 1,
@@ -41,7 +39,6 @@ module and should not be directly included in the manifest.")
   if $drush::php_ini_path {
     validate_absolute_path($drush::php_ini_path)
     concat::fragment { 'drush-sh-profile-php-ini-path':
-      ensure  => present,
       target  => 'drush-sh-profile',
       content => "export PHP_INI=${drush::php_ini_path}\n",
       order   => 1,
@@ -50,7 +47,6 @@ module and should not be directly included in the manifest.")
   if $drush::drush_ini_path {
     validate_absolute_path($drush::drush_ini_path)
     concat::fragment { 'drush-sh-profile-drush-ini-path':
-      ensure  => present,
       target  => 'drush-sh-profile',
       content => "export DRUSH_INI=${drush::drush_ini_path}\n",
       order   => 1,
