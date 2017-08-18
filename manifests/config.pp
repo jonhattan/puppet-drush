@@ -1,3 +1,7 @@
+# == Class: drush::config
+#
+# Private class.
+#
 class drush::config {
 
   #private()

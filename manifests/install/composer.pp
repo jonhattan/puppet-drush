@@ -1,3 +1,5 @@
+# == Define Resource Type: drush::install::composer
+#
 define drush::install::composer(
   $autoupdate,
   $version,

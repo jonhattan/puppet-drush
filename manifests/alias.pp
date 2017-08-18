@@ -1,4 +1,6 @@
-define drush::alias(
+# == Define Resource Type: drush::alias
+#
+define drush::alias (
   $ensure                  = present,
   $alias_name              = $name,
   $group                   = undef,
