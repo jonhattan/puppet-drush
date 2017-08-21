@@ -11,8 +11,9 @@ define drush::extension() {
   $extension_name = $parts[0]
 
   exec {"${drush::drush_exe_default} dl ${name}":
-    command => "/bin/su - -c '${drush::drush_exe_default} dl ${name}'",
+    command => "su - -c '${drush::drush_exe_default} dl ${name}'",
     creates => "/usr/share/drush/commands/${extension_name}",
+    path    => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/' ],
     notify  => Class['drush::cacheclear'],
   }
 
