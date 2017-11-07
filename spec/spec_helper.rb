@@ -1,17 +1,21 @@
-dir = File.expand_path(File.dirname(__FILE__))
-$LOAD_PATH.unshift File.join(dir, 'lib')
+require 'puppetlabs_spec_helper/module_spec_helper'
+require 'rspec-puppet-facts'
+# require 'rubocop-rspec'
 
-require 'mocha'
-require 'puppet'
-require 'rspec'
-require 'spec/autorun'
+include RspecPuppetFacts
 
-Spec::Runner.configure do |config|
-    config.mock_with :mocha
+require 'simplecov'
+require 'simplecov-console'
+
+SimpleCov.start do
+  add_filter '/spec'
+  add_filter '/vendor'
+  formatter SimpleCov::Formatter::MultiFormatter.new([
+                                                       SimpleCov::Formatter::HTMLFormatter,
+                                                       SimpleCov::Formatter::Console
+                                                     ])
 end
 
-# We need this because the RAL uses 'should' as a method.  This
-# allows us the same behaviour but with a different method name.
-class Object
-    alias :must :should
+RSpec.configure do |c|
+  c.hiera_config = File.expand_path(File.join(__FILE__, '../fixtures/hiera.yaml'))
 end

@@ -3,7 +3,6 @@
 # Private class.
 #
 class drush::setup {
-
   #private()
   if $caller_module_name != $module_name {
     warning("${name} is not part of the public API of the ${module_name} \
@@ -19,15 +18,17 @@ module and should not be directly included in the manifest.")
     }
   }
 
-  concat{ 'drush-sh-profile':
+  concat { 'drush-sh-profile':
     ensure => present,
     path   => '/etc/profile.d/drush.sh',
   }
+
   concat::fragment { 'drush-sh-profile-header':
     target  => 'drush-sh-profile',
     content => "# MANAGED BY PUPPET\n\n",
     order   => 0,
   }
+
   if $drush::php_path {
     validate_absolute_path($drush::php_path)
     concat::fragment { 'drush-sh-profile-php-path':
@@ -36,6 +37,7 @@ module and should not be directly included in the manifest.")
       order   => 1,
     }
   }
+
   if $drush::php_ini_path {
     validate_absolute_path($drush::php_ini_path)
     concat::fragment { 'drush-sh-profile-php-ini-path':
@@ -44,6 +46,7 @@ module and should not be directly included in the manifest.")
       order   => 1,
     }
   }
+
   if $drush::drush_ini_path {
     validate_absolute_path($drush::drush_ini_path)
     concat::fragment { 'drush-sh-profile-drush-ini-path':
@@ -74,10 +77,11 @@ module and should not be directly included in the manifest.")
   # {'6' => {'version' => '6'}, 'master' => {'version' => 'master'}}
   validate_array($drush::versions)
   $versions = parseyaml(template('drush/install-versions-hash.erb'))
+
   $defaults = {
     install_type => $drush::install_type,
     autoupdate   => $drush::autoupdate,
-    method       => 'composer'
+    method       => 'composer',
   }
   create_resources('drush::install', $versions, $defaults)
 
@@ -91,4 +95,3 @@ module and should not be directly included in the manifest.")
   }
 
 }
-
