@@ -10,6 +10,7 @@ define drush::extension() {
   $parts = split($name, '-')
   $extension_name = $parts[0]
 
+  # TODO ensure using a drush legacy version here.
   exec {"${drush::drush_exe_default} dl ${name}":
     command => "su - -c '${drush::drush_exe_default} dl ${name}'",
     creates => "/usr/share/drush/commands/${extension_name}",

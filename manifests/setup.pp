@@ -62,6 +62,11 @@ module and should not be directly included in the manifest.")
   file { ['/etc/drush', '/usr/share/drush', '/usr/share/drush/commands']:
     ensure => directory,
   }
+  if $drush::modern {
+    file { '/etc/drush/sites':
+      ensure => directory,
+    }
+  }
 
   # Symlink to drush default version executable.
   file { $drush::drush_exe_default:
@@ -72,7 +77,6 @@ module and should not be directly included in the manifest.")
   # Install drush versions. It could be improved with future parser's each(),
   # or building a hash like
   # {'6' => {'version' => '6'}, 'master' => {'version' => 'master'}}
-  validate_array($drush::versions)
   $versions = parseyaml(template('drush/install-versions-hash.erb'))
   $defaults = {
     install_type => $drush::install_type,

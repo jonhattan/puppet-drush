@@ -27,13 +27,38 @@ module and should not be directly included in the manifest.")
     }
   }
 
+  # Drush config file.
+  if $drush::modern {
+    $drush_modern_config = {
+      drush => {
+        paths => {
+          alias-path => [
+            '/etc/drush/sites',
+          ],
+        },
+      },
+    }
+    file { '/etc/drush/drush.yml':
+      ensure  => present,
+      content => to_yaml($drush_modern_config),
+    }
+  }
+
+
   # Create aliases.
   validate_hash($drush::aliases)
-  create_resources(drush::alias, $drush::aliases)
+  if $drush::legacy {
+    create_resources(drush::alias, $drush::aliases)
+  }
+  if $drush::modern {
+    create_resources(drush::aliasng, $drush::aliases)
+  }
 
   # Install extensions.
   validate_array($drush::extensions)
-  drush::extension{ $drush::extensions: }
+  if $drush::legacy {
+    drush::extension{ $drush::extensions: }
+  }
 
 }
 

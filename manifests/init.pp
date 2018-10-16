@@ -6,10 +6,10 @@
 #
 # [*versions*]
 #   Array of versions of drush to install.
-#   Valid values are '6', '7', '8', and 'master'.
+#   Valid values are '6', '7', '8', '9', and 'master'.
 #
 # [*default_version*]
-#   String with the drush version considered the main version.
+#   String with the drush version considered the main version. Defaults to '7'.
 #
 # [*install_type*]
 #   Install distribution package or source code.
@@ -70,6 +70,17 @@ class drush(
   $php_ini_path          = undef,
   $drush_ini_path        = undef,
 ) inherits drush::params {
+
+  # Identify legacy and/or modern drush installation.
+  validate_array($drush::versions)
+  $legacy_versions = $drush::versions.filter |$version| {
+    versioncmp($version, '9') < 0
+  }
+  $modern_versions = $drush::versions.filter |$version| {
+    versioncmp($version, '9') >= 0
+  }
+  $legacy = count($legacy_versions) > 0
+  $modern = count($modern_versions) > 0
 
   # Pick default major version.
   validate_string($default_version)

@@ -1,0 +1,37 @@
+<%= @alias_name %>:
+<% if @root -%>
+  root          : '<%= @root %>'
+<% end -%>
+<% if @uri -%>
+  uri           : '<%= @uri %>'
+<% end -%>
+<% if @remote_host -%>
+  host          : '<%= @remote_host %>'
+<% end -%>
+<% if @remote_user -%>
+  user          : '<%= @remote_user %>'
+<% end -%>
+<% if @ssh_options -%>
+  ssh           : '<%= @ssh_options %>'
+<% end -%>
+<% if @custom_options -%>
+  <%- @custom_options.each do |key, value| -%>
+  <%= "#{key}: #{value}" %>
+  <%- end -%>
+<% end -%>
+<% if @path_aliases -%>
+  paths: 
+  <%- @path_aliases.each do |key, value| -%>
+    <%= "#{key}: #{value}" %>
+  <%- end -%>
+<% end -%>
+<% if @command_specific -%>
+  command: 
+  <%- @command_specific.each do |command, options| -%>
+    <%= "#{command}" %> : 
+    <%- options.each do |key, value| -%>
+      <%- value = "#{value}" unless [true, false].include? value -%>
+      <%= "#{key}: #{value}" -%>
+    <%- end -%>
+  <%- end -%>
+<% end -%>
