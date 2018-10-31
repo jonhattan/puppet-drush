@@ -12,7 +12,7 @@ define drush::extension() {
 
   # TODO ensure using a drush legacy version here.
   exec {"${drush::drush_exe_default} dl ${name}":
-    command => "su - -c '${drush::drush_exe_default} dl ${name}'",
+    command => "su - -c '${drush::drush_exe_default} dl ${name} && [[ -e /usr/share/drush/commands/${extension_name}/composer.json ]] && cd /usr/share/drush/commands/${extension_name} && ${drush::composer_path} install'",
     creates => "/usr/share/drush/commands/${extension_name}",
     notify  => Class['drush::cacheclear'],
   }
