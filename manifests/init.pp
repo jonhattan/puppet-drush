@@ -92,10 +92,9 @@ class drush(
   $install_base_path = '/opt/drush'
   $drush_exe_default = '/usr/local/bin/drush'
 
-  class{'drush::setup': }
-  -> class{'drush::config': }
-  ~> class{'drush::cacheclear': }
+  class{'::drush::setup': }
+  -> class{'::drush::config': }
+  ~> class{'::drush::cacheclear': }
   -> Class['drush']
 
 }
-

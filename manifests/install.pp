@@ -60,9 +60,8 @@ define drush::install(
 
   exec { "${drush}-first-run":
     command     => "su - -c '${drush_exe} status'",
+    path        => '/bin:/usr/bin',
     require     => File[$drush_exe],
     refreshonly => true,
   }
-
 }
-
