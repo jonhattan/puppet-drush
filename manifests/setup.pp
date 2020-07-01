@@ -80,7 +80,6 @@ module and should not be directly included in the manifest.")
   $versions = parseyaml(template('drush/install-versions-hash.erb'))
   $defaults = {
     install_type => $drush::install_type,
-    autoupdate   => $drush::autoupdate,
     method       => 'composer'
   }
   create_resources('drush::install', $versions, $defaults)

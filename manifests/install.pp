@@ -11,16 +11,12 @@
 #   Install distribution package or source code.
 #   Valid values: 'dist', 'source'. Defaults to 'dist'.
 #
-# [*autoupdate*]
-#   Try and install new versions automatically. Defaults to false.
-#
 # [*method*]
 #   Installation method. It only accepts composer at present.
 #
 define drush::install(
   $version,
   $install_type = 'dist',
-  $autoupdate   = false,
   $method       = 'composer',
 ) {
 
@@ -41,7 +37,6 @@ define drush::install(
   case $method {
     'composer': {
       drush::install::composer { $drush:
-        autoupdate   => $autoupdate,
         version      => $version,
         install_path => $install_path,
         install_type => $install_type,

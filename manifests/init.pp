@@ -15,9 +15,6 @@
 #   Install distribution package or source code.
 #   Valid values: 'dist', 'source'. Defaults to 'dist'.
 #
-# [*autoupdate*]
-#   Try and install new versions automatically. Defaults to false.
-#
 # [*ensure_extra_packages*]
 #  Boolean indicating wether extra system packages must be installed.
 #  It defaults to false to not interfere with other modules.
@@ -58,7 +55,6 @@ class drush(
   $versions              = ['7',],
   $default_version       = '7',
   $install_type          = 'dist',
-  $autoupdate            = false,
   $ensure_extra_packages = false,
   $extra_packages        = $drush::params::extra_packages,
   $bash_integration      = false,

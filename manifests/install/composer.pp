@@ -1,7 +1,6 @@
 # == Define Resource Type: drush::install::composer
 #
 define drush::install::composer(
-  $autoupdate,
   $version,
   $install_path,
   $install_type,
@@ -33,9 +32,6 @@ module and should not be directly included in the manifest.")
     cwd         => $install_path,
     environment => ["COMPOSER_HOME=${composer_home}"],
     require     => File[$install_path],
-  }
-  if ! $autoupdate {
-    Exec[$cmd] { creates => "${install_path}/composer.json"}
   }
 
 }
