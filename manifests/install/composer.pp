@@ -32,7 +32,7 @@ module and should not be directly included in the manifest.")
     cwd         => $install_path,
     environment => ["COMPOSER_HOME=${composer_home}"],
     require     => File[$install_path],
-    onlyif      => "test \"$(grep drush/drush composer.json | cut -d\" -f 4)\" != '${real_version}'"
+    onlyif      => "test ! -f composer.json || test \"$(grep drush/drush composer.json | cut -d\\\" -f 4)\" != '${real_version}'"
   }
 
 }
