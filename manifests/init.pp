@@ -52,8 +52,8 @@
 #   environment variable system-wide. See `docs-ini-files` for details.
 #
 class drush(
-  $versions              = ['7',],
-  $default_version       = '7',
+  $versions              = ['10',],
+  $default_version       = '10',
   $install_type          = 'dist',
   $ensure_extra_packages = false,
   $extra_packages        = $drush::params::extra_packages,
