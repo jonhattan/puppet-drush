@@ -54,6 +54,7 @@ define drush::install(
   }
 
   exec { "${drush}-first-run":
+    environment => ["HOME=${drush::install_base_path}"],
     command     => "su - -c '${drush_exe} status'",
     require     => File[$drush_exe],
     refreshonly => true,

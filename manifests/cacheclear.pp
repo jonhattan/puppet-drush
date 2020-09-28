@@ -12,6 +12,7 @@ module and should not be directly included in the manifest.")
 
   # Clear drush cache on demand.
   exec { 'drush-cc-drush':
+    environment => ["HOME=${drush::install_base_path}"],
     command     => "${drush::drush_exe_default} cc drush",
     require     => File[$drush::drush_exe_default],
     refreshonly => true,
