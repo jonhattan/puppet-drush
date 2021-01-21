@@ -35,6 +35,9 @@ module and should not be directly included in the manifest.")
           alias-path => [
             '/etc/drush/sites',
           ],
+          include => [
+            '/usr/share/drush/commands',
+          ],
         },
       },
     }

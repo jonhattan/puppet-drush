@@ -59,7 +59,7 @@ module and should not be directly included in the manifest.")
   }
 
   # Drush directories.
-  file { ['/etc/drush', '/usr/share/drush', '/usr/share/drush/commands']:
+  file { ['/etc/drush', '/usr/share/drush', '/usr/share/drush/commands', '/usr/share/drush/commands/Commands']:
     ensure => directory,
   }
   if $drush::modern {
