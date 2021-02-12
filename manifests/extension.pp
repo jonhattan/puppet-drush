@@ -14,6 +14,7 @@ define drush::extension() {
   exec {"${drush::drush_exe_default} dl ${name}":
     command => "su - -c '${drush::drush_exe_default} dl ${name} && [[ -e /usr/share/drush/commands/${extension_name}/composer.json ]] && cd /usr/share/drush/commands/${extension_name} && ${drush::composer_path} install'",
     creates => "/usr/share/drush/commands/${extension_name}",
+    path    => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/' ],
     notify  => Class['drush::cacheclear'],
   }
 
