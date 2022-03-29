@@ -52,23 +52,22 @@
 #   environment variable system-wide. See `docs-ini-files` for details.
 #
 class drush(
-  $versions              = ['10',],
-  $default_version       = '10',
-  $install_type          = 'dist',
-  $ensure_extra_packages = false,
-  $extra_packages        = $drush::params::extra_packages,
-  $bash_integration      = false,
-  $bash_autocompletion   = true,
-  $extensions            = [],
-  $aliases               = {},
-  $composer_path         = '/usr/local/bin/composer',
-  $php_path              = undef,
-  $php_ini_path          = undef,
-  $drush_ini_path        = undef,
+  Array[String] $versions                        = ['10',],
+  String $default_version                        = '10',
+  String $install_type                           = 'dist',
+  Boolean $ensure_extra_packages                 = false,
+  Array[String] $extra_packages                  = $drush::params::extra_packages,
+  Boolean $bash_integration                      = false,
+  Boolean $bash_autocompletion                   = true,
+  Array $extensions                              = [],
+  Hash $aliases                                  = {},
+  Stdlib::Absolutepath $composer_path            = '/usr/local/bin/composer',
+  Optional[Stdlib::Absolutepath] $php_path       = undef,
+  Optional[Stdlib::Absolutepath] $php_ini_path   = undef,
+  Optional[Stdlib::Absolutepath] $drush_ini_path = undef,
 ) inherits drush::params {
 
   # Identify legacy and/or modern drush installation.
-  validate_array($drush::versions)
   $legacy_versions = $drush::versions.filter |$version| {
     versioncmp($version, '9') < 0
   }
@@ -79,11 +78,8 @@ class drush(
   $modern = count($modern_versions) > 0
 
   # Pick default major version.
-  validate_string($default_version)
   $parts = split($default_version, '[.]')
   $default_version_major = $parts[0]
-
-  validate_absolute_path($composer_path)
 
   $install_base_path = '/opt/drush'
   $drush_exe_default = '/usr/local/bin/drush'

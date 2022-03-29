@@ -1,39 +1,31 @@
 # == Define Resource Type: drush::alias
 #
 define drush::alias (
-  $ensure                  = present,
-  $alias_name              = $name,
-  $group                   = undef,
-  $parent                  = undef,
-  $root                    = undef,
-  $uri                     = undef,
-  $db_url                  = undef,
-  $path_aliases            = undef,
-  $ssh_options             = undef,
-  $remote_host             = undef,
-  $remote_user             = undef,
-  $custom_options          = undef,
-  $command_specific        = undef,
-  $source_command_specific = undef,
-  $target_command_specific = undef,
+  String $ensure                          = present,
+  String $alias_name                      = $name,
+  Optional[String] $group                 = undef,
+  Optional[String] $parent                = undef,
+  Optional[Stdlib::Absolutepath] $root    = undef,
+  Optional[String] $uri                   = undef,
+  Optional[String] $db_url                = undef,
+  Optional[Hash] $path_aliases            = undef,
+  Optional[String] $ssh_options           = undef,
+  Optional[String] $remote_host           = undef,
+  Optional[String] $remote_user           = undef,
+  Optional[Hash] $custom_options          = undef,
+  Optional[Hash] $command_specific        = undef,
+  Optional[Hash] $source_command_specific = undef,
+  Optional[Hash] $target_command_specific = undef,
 ) {
 
   if (!defined(Class['drush'])) {
     fail('You must include class drush before declaring aliases')
   }
 
-  if $root {
-    validate_absolute_path($root)
-  }
   if $parent {
-    validate_re($parent, '^@',
-    "Invalid parent alias '${parent}'. Parent aliases must start with @.")
-  }
-  if $custom_options {
-    validate_hash($custom_options)
-  }
-  if $command_specific {
-    validate_hash($command_specific)
+    if $parent !~ /^@/ {
+      fail("Invalid parent alias '${parent}'. Parent aliases must start with @.")
+    }
   }
 
   $aliasfile = $group ? {

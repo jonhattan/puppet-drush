@@ -1,21 +1,21 @@
 # == Define Resource Type: drush::aliasng
 #
 define drush::aliasng (
-  $ensure                  = present,
-  $alias_name              = $name,
-  $group                   = undef,
-  $parent                  = undef,
-  $root                    = undef,
-  $uri                     = undef,
-  $db_url                  = undef,
-  $path_aliases            = undef,
-  $ssh_options             = undef,
-  $remote_host             = undef,
-  $remote_user             = undef,
-  $custom_options          = undef,
-  $command_specific        = undef,
-  $source_command_specific = undef,
-  $target_command_specific = undef,
+  String $ensure                          = present,
+  String $alias_name                      = $name,
+  Optional[String] $group                 = undef,
+  Optional[String] $parent                = undef,
+  Optional[Stdlib::Absolutepath] $root    = undef,
+  Optional[String] $uri                   = undef,
+  Optional[String] $db_url                = undef,
+  Optional[Hash] $path_aliases            = undef,
+  Optional[String] $ssh_options           = undef,
+  Optional[String] $remote_host           = undef,
+  Optional[String] $remote_user           = undef,
+  Optional[Hash] $custom_options          = undef,
+  Optional[Hash] $command_specific        = undef,
+  Optional[Hash] $source_command_specific = undef,
+  Optional[Hash] $target_command_specific = undef,
 ) {
 
   if (!defined(Class['drush'])) {
@@ -33,16 +33,6 @@ define drush::aliasng (
   }
   if $target_command_specific {
     warning("Drush versions >= 9 doesn't support 'target_command_specific' option. Ignoring.")
-  }
-
-  if $root {
-    validate_absolute_path($root)
-  }
-  if $custom_options {
-    validate_hash($custom_options)
-  }
-  if $command_specific {
-    validate_hash($command_specific)
   }
 
   $aliasfile = $group ? {
