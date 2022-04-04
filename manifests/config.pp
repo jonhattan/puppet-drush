@@ -11,9 +11,6 @@ module and should not be directly included in the manifest.")
   }
 
   # Bash integration and autocompletion based on the default version.
-  validate_bool($drush::bash_integration,
-                $drush::bash_autocompletion
-  )
   if $drush::bash_integration {
     file { '/etc/profile.d/drushrc.sh':
       ensure => link,
@@ -49,7 +46,6 @@ module and should not be directly included in the manifest.")
 
 
   # Create aliases.
-  validate_hash($drush::aliases)
   if $drush::legacy {
     create_resources(drush::alias, $drush::aliases)
   }
@@ -58,7 +54,6 @@ module and should not be directly included in the manifest.")
   }
 
   # Install extensions.
-  validate_array($drush::extensions)
   if $drush::legacy {
     drush::extension{ $drush::extensions: }
   }

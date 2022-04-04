@@ -11,9 +11,7 @@ module and should not be directly included in the manifest.")
   }
 
   # Install extra packages.
-  validate_bool($drush::ensure_extra_packages)
   if $drush::ensure_extra_packages {
-    validate_array($drush::extra_packages)
     package { $drush::extra_packages:
       ensure => installed,
     }
@@ -29,7 +27,6 @@ module and should not be directly included in the manifest.")
     order   => 0,
   }
   if $drush::php_path {
-    validate_absolute_path($drush::php_path)
     concat::fragment { 'drush-sh-profile-php-path':
       target  => 'drush-sh-profile',
       content => "export DRUSH_PHP=${drush::php_path}\n",
@@ -37,7 +34,6 @@ module and should not be directly included in the manifest.")
     }
   }
   if $drush::php_ini_path {
-    validate_absolute_path($drush::php_ini_path)
     concat::fragment { 'drush-sh-profile-php-ini-path':
       target  => 'drush-sh-profile',
       content => "export PHP_INI=${drush::php_ini_path}\n",
@@ -45,7 +41,6 @@ module and should not be directly included in the manifest.")
     }
   }
   if $drush::drush_ini_path {
-    validate_absolute_path($drush::drush_ini_path)
     concat::fragment { 'drush-sh-profile-drush-ini-path':
       target  => 'drush-sh-profile',
       content => "export DRUSH_INI=${drush::drush_ini_path}\n",
