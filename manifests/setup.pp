@@ -59,7 +59,9 @@ module and should not be directly included in the manifest.")
   }
   if $drush::modern {
     file { '/etc/drush/sites':
-      ensure => directory,
+      ensure  => directory,
+      purge   => true,
+      recurse => true,
     }
   }
 
@@ -89,4 +91,3 @@ module and should not be directly included in the manifest.")
   }
 
 }
-
