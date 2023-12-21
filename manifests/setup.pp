@@ -3,10 +3,9 @@
 # Private class.
 #
 class drush::setup {
-
   #private()
   if $caller_module_name != $module_name {
-    warning("${name} is not part of the public API of the ${module_name} \
+  warning("${name} is not part of the public API of the ${module_name} \
 module and should not be directly included in the manifest.")
   }
 
@@ -17,7 +16,7 @@ module and should not be directly included in the manifest.")
     }
   }
 
-  concat{ 'drush-sh-profile':
+  concat { 'drush-sh-profile':
     ensure => present,
     path   => '/etc/profile.d/drush.sh',
   }
@@ -54,14 +53,12 @@ module and should not be directly included in the manifest.")
   }
 
   # Drush directories.
-  file { ['/etc/drush', '/usr/share/drush', '/usr/share/drush/commands', '/usr/share/drush/commands/Commands']:
+  file { ['/etc/drush', '/usr/share/drush', '/usr/share/drush/commands']:
     ensure => directory,
   }
   if $drush::modern {
     file { '/etc/drush/sites':
-      ensure  => directory,
-      purge   => true,
-      recurse => true,
+      ensure => directory,
     }
   }
 
@@ -77,7 +74,7 @@ module and should not be directly included in the manifest.")
   $versions = parseyaml(template('drush/install-versions-hash.erb'))
   $defaults = {
     install_type => $drush::install_type,
-    method       => 'composer'
+    method       => 'composer',
   }
   create_resources('drush::install', $versions, $defaults)
 
@@ -89,5 +86,4 @@ module and should not be directly included in the manifest.")
     ensure => link,
     target => "${default_path}/vendor/drush/drush",
   }
-
 }

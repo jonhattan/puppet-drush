@@ -51,22 +51,21 @@
 #   Path to a ini file with php overrides. If provided, it will set DRUSH_INI
 #   environment variable system-wide. See `docs-ini-files` for details.
 #
-class drush(
-  Array[String] $versions                        = ['10',],
-  String $default_version                        = '10',
-  String $install_type                           = 'dist',
-  Boolean $ensure_extra_packages                 = false,
-  Array[String] $extra_packages                  = $drush::params::extra_packages,
-  Boolean $bash_integration                      = false,
-  Boolean $bash_autocompletion                   = true,
-  Array $extensions                              = [],
-  Hash $aliases                                  = {},
-  Stdlib::Absolutepath $composer_path            = '/usr/local/bin/composer',
-  Optional[Stdlib::Absolutepath] $php_path       = undef,
-  Optional[Stdlib::Absolutepath] $php_ini_path   = undef,
-  Optional[Stdlib::Absolutepath] $drush_ini_path = undef,
+class drush (
+  Array[String] $versions          = ['7',],
+  String $default_version          = '7',
+  String $install_type             = 'dist',
+  Boolean $ensure_extra_packages   = false,
+  Array $extra_packages            = $drush::params::extra_packages,
+  Boolean $bash_integration        = false,
+  Boolean $bash_autocompletion     = true,
+  Array $extensions                = [],
+  Hash $aliases                    = {},
+  String $composer_path            = '/usr/local/bin/composer',
+  Optional[String] $php_path       = undef,
+  Optional[String] $php_ini_path   = undef,
+  Optional[String] $drush_ini_path = undef,
 ) inherits drush::params {
-
   # Identify legacy and/or modern drush installation.
   $legacy_versions = $drush::versions.filter |$version| {
     versioncmp($version, '9') < 0
@@ -84,10 +83,8 @@ class drush(
   $install_base_path = '/opt/drush'
   $drush_exe_default = '/usr/local/bin/drush'
 
-  class{'drush::setup': }
-  -> class{'drush::config': }
-  ~> class{'drush::cacheclear': }
+  class { 'drush::setup': }
+  -> class { 'drush::config': }
+  ~> class { 'drush::cacheclear': }
   -> Class['drush']
-
 }
-
