@@ -38,7 +38,7 @@ module and should not be directly included in the manifest.")
       },
     }
     file { '/etc/drush/drush.yml':
-      ensure  => present,
+      ensure  => file,
       content => to_yaml($drush_modern_config),
     }
   }
