@@ -31,11 +31,14 @@ module and should not be directly included in the manifest.")
           alias-path => [
             '/etc/drush/sites',
           ],
+          include => [
+            '/usr/share/drush/commands',
+          ],
         },
       },
     }
     file { '/etc/drush/drush.yml':
-      ensure  => file,
+      ensure  => present,
       content => to_yaml($drush_modern_config),
     }
   }
