@@ -37,6 +37,12 @@ define drush::alias (
     fail('You must include class drush before declaring aliases')
   }
 
+  if $parent {
+    if $parent !~ /^@/ {
+      fail("Invalid parent alias '${parent}'. Parent aliases must start with @.")
+    }
+  }
+
   $aliasfile = $group ? {
     undef   => '/etc/drush/aliases.drushrc.php',
     default => "/etc/drush/${group}.aliases.drushrc.php",
