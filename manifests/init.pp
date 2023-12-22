@@ -51,7 +51,7 @@
 #   Path to a ini file with php overrides. If provided, it will set DRUSH_INI
 #   environment variable system-wide. See `docs-ini-files` for details.
 #
-class drush(
+class drush (
   Array[String] $versions                        = ['10',],
   String $default_version                        = '10',
   String $install_type                           = 'dist',
@@ -66,7 +66,6 @@ class drush(
   Optional[Stdlib::Absolutepath] $php_ini_path   = undef,
   Optional[Stdlib::Absolutepath] $drush_ini_path = undef,
 ) inherits drush::params {
-
   # Identify legacy and/or modern drush installation.
   $legacy_versions = $drush::versions.filter |$version| {
     versioncmp($version, '9') < 0
@@ -84,10 +83,8 @@ class drush(
   $install_base_path = '/opt/drush'
   $drush_exe_default = '/usr/local/bin/drush'
 
-  class{'drush::setup': }
-  -> class{'drush::config': }
-  ~> class{'drush::cacheclear': }
+  class { 'drush::setup': }
+  -> class { 'drush::config': }
+  ~> class { 'drush::cacheclear': }
   -> Class['drush']
-
 }
-

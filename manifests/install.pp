@@ -14,17 +14,15 @@
 # [*method*]
 #   Installation method. It only accepts composer at present.
 #
-define drush::install(
-  $version,
-  $install_type = 'dist',
-  $method       = 'composer',
+define drush::install (
+  String $version,
+  String $install_type = 'dist',
+  String $method       = 'composer',
 ) {
-
-  $install_types = [ 'dist', 'source' ]
+  $install_types = ['dist', 'source']
   if ! ($install_type in $install_types) {
     fail("'${install_type}' is not a valid value for creation_mode. Valid values: ${install_types}.")
   }
-
 
   # Pick major version.
   $parts = split($version, '[.]')
@@ -59,6 +57,4 @@ define drush::install(
     require     => File[$drush_exe],
     refreshonly => true,
   }
-
 }
-

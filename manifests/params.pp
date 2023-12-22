@@ -3,7 +3,7 @@
 # This class manages drush parameters.
 #
 class drush::params {
-  case $::osfamily {
+  case $facts['os']['family'] {
     'Debian': {
       $extra_packages = [
         'bzip2',
@@ -27,8 +27,7 @@ class drush::params {
       ]
     }
     default: {
-      fail("Unsupported operatingsystem: ${::osfamily}/${::operatingsystem}.")
+      fail("Unsupported operatingsystem: ${facts['os']['family']}/${facts['os']['name']}.")
     }
   }
 }
-

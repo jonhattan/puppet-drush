@@ -1,23 +1,38 @@
 # == Define Resource Type: drush::aliasng
 #
+# @param ensure
+# @param alias_name
+# @param group
+# @param root
+# @param parent
+# @param uri
+# @param db_url
+# @param path_aliases
+# @param ssh_options
+# @param remote_host
+# @param remote_user
+# @param custom_options
+# @param command_specific
+# @param source_command_specific
+# @param target_command_specific
+#
 define drush::aliasng (
-  String $ensure                          = present,
-  String $alias_name                      = $name,
-  Optional[String] $group                 = undef,
-  Optional[String] $parent                = undef,
-  Optional[Stdlib::Absolutepath] $root    = undef,
-  Optional[String] $uri                   = undef,
-  Optional[String] $db_url                = undef,
-  Optional[Hash] $path_aliases            = undef,
-  Optional[String] $ssh_options           = undef,
-  Optional[String] $remote_host           = undef,
-  Optional[String] $remote_user           = undef,
-  Optional[Hash] $custom_options          = undef,
-  Optional[Hash] $command_specific        = undef,
-  Optional[Hash] $source_command_specific = undef,
-  Optional[Hash] $target_command_specific = undef,
+  String $ensure                                           = present,
+  String $alias_name                                       = $name,
+  Optional[String] $group                                  = undef,
+  Optional[String] $parent                                 = undef,
+  Optional[Stdlib::Absolutepath] $root                     = undef,
+  Optional[String] $uri                                    = undef,
+  Optional[String] $db_url                                 = undef,
+  Optional[Hash] $path_aliases                             = undef,
+  Optional[String] $ssh_options                            = undef,
+  Optional[String] $remote_host                            = undef,
+  Optional[String] $remote_user                            = undef,
+  Optional[Hash] $custom_options                           = undef,
+  Optional[Hash] $command_specific                         = undef,
+  Optional[Hash] $source_command_specific                  = undef,
+  Optional[Hash] $target_command_specific                  = undef,
 ) {
-
   if (!defined(Class['drush'])) {
     fail('You must include class drush before declaring aliases')
   }
@@ -41,7 +56,7 @@ define drush::aliasng (
   }
 
   if !defined(Concat[$aliasfile]) {
-    concat{ $aliasfile:
+    concat { $aliasfile:
       ensure => $ensure,
     }
     concat::fragment { "${aliasfile}-header":
@@ -56,6 +71,4 @@ define drush::aliasng (
     content => template('drush/aliasng.erb'),
     order   => 1,
   }
-
 }
-

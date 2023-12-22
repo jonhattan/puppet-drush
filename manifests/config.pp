@@ -3,10 +3,9 @@
 # Private class.
 #
 class drush::config {
-
   #private()
   if $caller_module_name != $module_name {
-    warning("${name} is not part of the public API of the ${module_name} \
+  warning("${name} is not part of the public API of the ${module_name} \
 module and should not be directly included in the manifest.")
   }
 
@@ -39,11 +38,10 @@ module and should not be directly included in the manifest.")
       },
     }
     file { '/etc/drush/drush.yml':
-      ensure  => present,
+      ensure  => file,
       content => to_yaml($drush_modern_config),
     }
   }
-
 
   # Create aliases.
   if $drush::legacy {
@@ -55,8 +53,6 @@ module and should not be directly included in the manifest.")
 
   # Install extensions.
   if $drush::legacy {
-    drush::extension{ $drush::extensions: }
+    drush::extension { $drush::extensions: }
   }
-
 }
-
