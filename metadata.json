@@ -1,6 +1,6 @@
 {
   "name": "jonhattan-drush",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "author": "jonhattan",
   "summary": "Installs several versions of Drush system-wide.",
   "license": "MIT",
